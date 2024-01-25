@@ -6,7 +6,7 @@
 /*   By: batuhan <batuhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 20:02:16 by batuhan           #+#    #+#             */
-/*   Updated: 2024/01/25 23:02:24 by batuhan          ###   ########.fr       */
+/*   Updated: 2024/01/25 23:24:56 by batuhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ Bir Roma rakamı verildiğinde, bunu bir tam sayıya dönüştürün.
 
  * @param s 
  * @return int 
+ * 
+ * XL 40
+ * XC 90
+ * CD 400
+ * CM 900
+ * 
  */
 
 #include <stdio.h>
@@ -47,8 +53,11 @@ int romanToInt(char *s)
 {
 	int j = 0;
 	int realnum = 0;
-	int bircount = 0;
+	int icount = 0;
+	int	vcount = 0;
 	int xcount = 0;
+	int	lcount = 0;
+	int	ccount = 0;
 	int i = 1;
 	int v = 5;
 	int x = 10;
@@ -59,26 +68,28 @@ int romanToInt(char *s)
 
 	while(s[j])
 	{
-		if (s[j] == 'I' && bircount <= 3)
+		if (s[j] == 'I' && icount <= 3)
 		{
-			if ((s[j + 1] == 'V' || s[j + 1] == 'X') && !s[j + 2] && !bircount)
+			if ((s[j + 1] == 'V' || s[j + 1] == 'X') && !s[j + 2] && !icount)
 			{
 				j++;
 				if (s[j] == 'V') {
 					realnum += v - i;
-					bircount++;
+					icount++;
 				} else {
 					realnum += x - i;
-					bircount++;
+					icount++;
 				}
 			} else {
 				realnum += i;
-				bircount++;
+				icount++;
 			}
 		}
-		else if (s[j] == 'V' && bircount < 2)
+		else if (s[j] == 'V' && icount < 2) {
 			realnum += v;
-		else if (s[j] == 'X' && bircount < 2 && xcount <= 3)
+			vcount++;
+		}
+		else if (s[j] == 'X' && icount < 2 && xcount <= 3)
 		{
 			if ((s[j + 1] == 'L' || s[j + 1] == 'C') && !xcount) 
 			{
@@ -86,9 +97,11 @@ int romanToInt(char *s)
 				if (s[j] == 'L') {
 					realnum += l - x;
 					xcount++;
+					lcount++;
 				} else {
 					realnum += c - x;
 					xcount++;
+					ccount++;
 				}
 			}
 			else {
@@ -96,13 +109,17 @@ int romanToInt(char *s)
 				xcount++;
 			}
 		}
-		if (bircount > 3 || xcount > 3) {
+		else if (s[j] == 'L') {
+			realnum += l;
+			lcount++;
+		}
+		if (icount > 3 || xcount > 3 || vcount > 1 || lcount > 1) {
 			perror("wrong number !");
 			return 0;
-		} else if (bircount == 2 && (s[j + 1] != 'I' && s[j + 1] != '\0')) {
+		} else if (icount == 2 && (s[j + 1] != 'I' && s[j + 1] != '\0')) {
 			perror("wrong number !");
 			return 0;
-		} else if (bircount == 3 && s[j + 1]) {
+		} else if (icount == 3 && s[j + 1]) {
 			perror("wrong number !");
 			return 0;
 		} else if (s[j] < s[j + 1]) {
@@ -117,7 +134,7 @@ int romanToInt(char *s)
 }
 
 int main () {
-	char x[] = "XLV";
+	char x[] = "XLVIII";
 	int c = 0;
 	c = romanToInt(x);
 	printf("%d\n", c);
