@@ -6,7 +6,7 @@
 /*   By: batuhan <batuhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 20:02:16 by batuhan           #+#    #+#             */
-/*   Updated: 2024/01/25 22:38:46 by batuhan          ###   ########.fr       */
+/*   Updated: 2024/01/25 23:02:24 by batuhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ int romanToInt(char *s)
 				j++;
 				if (s[j] == 'V') {
 					realnum += v - i;
+					bircount++;
 				} else {
 					realnum += x - i;
+					bircount++;
 				}
 			} else {
 				realnum += i;
@@ -76,12 +78,25 @@ int romanToInt(char *s)
 		}
 		else if (s[j] == 'V' && bircount < 2)
 			realnum += v;
-		else if (s[j] == 'X' && bircount < 2) {
-			realnum += x;
-			xcount++;
-		}
-		if (bircount > 3 || xcount > 3)
+		else if (s[j] == 'X' && bircount < 2 && xcount <= 3)
 		{
+			if ((s[j + 1] == 'L' || s[j + 1] == 'C') && !xcount) 
+			{
+				j++;
+				if (s[j] == 'L') {
+					realnum += l - x;
+					xcount++;
+				} else {
+					realnum += c - x;
+					xcount++;
+				}
+			}
+			else {
+				realnum += x;
+				xcount++;
+			}
+		}
+		if (bircount > 3 || xcount > 3) {
 			perror("wrong number !");
 			return 0;
 		} else if (bircount == 2 && (s[j + 1] != 'I' && s[j + 1] != '\0')) {
@@ -91,8 +106,10 @@ int romanToInt(char *s)
 			perror("wrong number !");
 			return 0;
 		} else if (s[j] < s[j + 1]) {
-			perror("wrong number !");
-			return 0;
+			if (!(s[j] == 'L' || s[j] == 'C') && s[j - 1] == 'X') {
+				perror("wrong number !");
+				return 0;
+			}
 		}
 		j++;
 	}
@@ -100,7 +117,7 @@ int romanToInt(char *s)
 }
 
 int main () {
-	char x[] = "XXVII";
+	char x[] = "XLV";
 	int c = 0;
 	c = romanToInt(x);
 	printf("%d\n", c);
