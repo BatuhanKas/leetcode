@@ -6,7 +6,7 @@
 /*   By: batuhan <batuhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 20:02:16 by batuhan           #+#    #+#             */
-/*   Updated: 2024/01/25 23:59:11 by batuhan          ###   ########.fr       */
+/*   Updated: 2024/01/26 00:12:19 by batuhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,9 @@ int romanToInt(char *s)
 					realnum += x - i;
 					icount++;
 				}
-			} else if (s[j + 1] > x) {
-				perror("wrong number !");
+			} else if ((s[j + 1] == 'L') || (s[j + 1] == 'C')
+				|| (s[j + 1] == 'D') || (s[j + 1] == 'M')) {
+				perror("wrong number ! 1");
 				return 0;
 			} else {
 				realnum += i;
@@ -120,17 +121,18 @@ int romanToInt(char *s)
 			lcount++;
 		}
 		if (icount > 3 || xcount > 3 || vcount > 1 || lcount > 1) {
-			perror("wrong number !");
+			perror("wrong number ! 2");
 			return 0;
 		} else if (icount == 2 && (s[j + 1] != 'I' && s[j + 1] != '\0')) {
-			perror("wrong number !");
+			perror("wrong number ! 3");
 			return 0;
 		} else if (icount == 3 && s[j + 1]) {
-			perror("wrong number !");
+			perror("wrong number ! 4");
 			return 0;
-		} else if (s[j] < s[j + 1]) {
+		} 
+		else if (s[j] < s[j + 1]) {
 			if (!(s[j] == 'L' || s[j] == 'C') && !(s[j - 1] == 'X')) {
-				perror("wrong number !");
+				perror("wrong number 5!");
 				return 0;
 			}
 		}
