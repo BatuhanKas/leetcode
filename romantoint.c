@@ -6,7 +6,7 @@
 /*   By: batuhan <batuhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 20:02:16 by batuhan           #+#    #+#             */
-/*   Updated: 2024/01/25 23:24:56 by batuhan          ###   ########.fr       */
+/*   Updated: 2024/01/25 23:59:11 by batuhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ int romanToInt(char *s)
 
 	while(s[j])
 	{
+		if (s[j] >= 'a' && s[j] <= 'z') {
+			s[j] -= 32;
+		}
 		if (s[j] == 'I' && icount <= 3)
 		{
 			if ((s[j + 1] == 'V' || s[j + 1] == 'X') && !s[j + 2] && !icount)
@@ -80,6 +83,9 @@ int romanToInt(char *s)
 					realnum += x - i;
 					icount++;
 				}
+			} else if (s[j + 1] > x) {
+				perror("wrong number !");
+				return 0;
 			} else {
 				realnum += i;
 				icount++;
@@ -123,7 +129,7 @@ int romanToInt(char *s)
 			perror("wrong number !");
 			return 0;
 		} else if (s[j] < s[j + 1]) {
-			if (!(s[j] == 'L' || s[j] == 'C') && s[j - 1] == 'X') {
+			if (!(s[j] == 'L' || s[j] == 'C') && !(s[j - 1] == 'X')) {
 				perror("wrong number !");
 				return 0;
 			}
@@ -134,7 +140,7 @@ int romanToInt(char *s)
 }
 
 int main () {
-	char x[] = "XLVIII";
+	char x[] = "LXXXVIII";
 	int c = 0;
 	c = romanToInt(x);
 	printf("%d\n", c);
