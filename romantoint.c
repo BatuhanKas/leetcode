@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   romantoint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: batuhan <batuhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bkas <bkas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 20:02:16 by batuhan           #+#    #+#             */
-/*   Updated: 2024/01/26 00:12:19 by batuhan          ###   ########.fr       */
+/*   Updated: 2024/01/26 18:10:59 by bkas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 	M 1000
  * 
 Örneğin, 2 Roma rakamıyla II olarak yazılır, sadece iki bir toplanır. 
-12 sayısı XII olarak yazılır, bu da basitçe X + II'dir. 
+12 sayısı XII olarak yazılır, bu da basitçe X + II'dir.
 27 sayısı XXVII olarak yazılır, yani XX + V + II.
 
 Roma rakamları genellikle soldan sağa doğru büyükten küçüğe doğru yazılır.
@@ -51,13 +51,13 @@ Bir Roma rakamı verildiğinde, bunu bir tam sayıya dönüştürün.
 
 int romanToInt(char *s)
 {
-	int j = 0;
 	int realnum = 0;
 	int icount = 0;
 	int	vcount = 0;
 	int xcount = 0;
 	int	lcount = 0;
 	int	ccount = 0;
+	int	dcount = 0;
 	int i = 1;
 	int v = 5;
 	int x = 10;
@@ -66,22 +66,27 @@ int romanToInt(char *s)
 	int d = 500;
 	int m = 1000;
 
-	while(s[j])
-	{
-		if (s[j] >= 'a' && s[j] <= 'z') {
+	for (int j = 0; s[j]; j++)
+		if (s[j] >= 'a' && s[j] <= 'z')
 			s[j] -= 32;
-		}
+	for (int j = 0; s[j]; j++)
+	{
 		if (s[j] == 'I' && icount <= 3)
 		{
-			if ((s[j + 1] == 'V' || s[j + 1] == 'X') && !s[j + 2] && !icount)
+			if ((s[j + 1] == 'V' || s[j + 1] == 'X') && !icount)
 			{
-				j++;
-				if (s[j] == 'V') {
-					realnum += v - i;
-					icount++;
-				} else {
-					realnum += x - i;
-					icount++;
+				if (!s[j + 2]) {
+					j++;
+					if (s[j] == 'V') {
+						realnum += v - i;
+						icount++;
+					} else {
+						realnum += x - i;
+						icount++;
+					}
+				} else if (s[j+2]) {
+					perror("wrong number ! 1");
+					return 0;
 				}
 			} else if ((s[j + 1] == 'L') || (s[j + 1] == 'C')
 				|| (s[j + 1] == 'D') || (s[j + 1] == 'M')) {
@@ -104,11 +109,9 @@ int romanToInt(char *s)
 				if (s[j] == 'L') {
 					realnum += l - x;
 					xcount++;
-					lcount++;
 				} else {
 					realnum += c - x;
 					xcount++;
-					ccount++;
 				}
 			}
 			else {
@@ -120,7 +123,26 @@ int romanToInt(char *s)
 			realnum += l;
 			lcount++;
 		}
-		if (icount > 3 || xcount > 3 || vcount > 1 || lcount > 1) {
+		else if (s[j] == 'C' && ccount <= 3) {
+			if ((s[j + 1] == 'D' || s[j + 1] == 'M') && !ccount) {
+				j++;
+				if (s[j] == 'D') {
+					realnum += d - c;
+					ccount++;
+				} else {
+					realnum += m - c;
+					ccount++;
+				}
+			} else {
+				realnum += c;
+				ccount++;
+			}
+		}
+		else if (s[j] == 'D' && dcount <= 3) {
+			realnum += d;
+			ccount++;
+		}
+		if (icount > 3 || xcount > 3 || vcount > 1 || lcount > 1 || ccount > 3) {
 			perror("wrong number ! 2");
 			return 0;
 		} else if (icount == 2 && (s[j + 1] != 'I' && s[j + 1] != '\0')) {
@@ -136,13 +158,12 @@ int romanToInt(char *s)
 				return 0;
 			}
 		}
-		j++;
 	}
 	return realnum;
 }
 
 int main () {
-	char x[] = "LXXXVIII";
+	char x[] = "cdx";
 	int c = 0;
 	c = romanToInt(x);
 	printf("%d\n", c);
