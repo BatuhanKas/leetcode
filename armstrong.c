@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   armstrong.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkas <bkas@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: batuhan <batuhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 18:26:00 by bkas              #+#    #+#             */
-/*   Updated: 2024/01/27 18:44:24 by bkas             ###   ########.fr       */
+/*   Updated: 2024/01/27 21:14:38 by batuhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ bool is_armstrong_number(int candidate) {
     int candy = candidate;
     int sugar = candidate;
     int num = 1;
+    int total = 0;
 
     while (candy) {
         candy /= 10;
@@ -32,9 +33,12 @@ bool is_armstrong_number(int candidate) {
             printf("num : %d\n", num);
             x--;
         }
+        total += num;
+        num = 1;
+        printf("total : %d\n", total);
         sugar /= 10;
     }
-    if (num == candidate)
+    if (total == candidate)
         return true;
     return false;
 }

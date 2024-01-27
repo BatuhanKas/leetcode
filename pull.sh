@@ -1,0 +1,1 @@
+git pull git@github.com:BatuhanKas/leetcode.git master
