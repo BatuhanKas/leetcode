@@ -6,7 +6,7 @@
 /*   By: bkas <bkas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 20:02:16 by batuhan           #+#    #+#             */
-/*   Updated: 2024/01/26 18:10:59 by bkas             ###   ########.fr       */
+/*   Updated: 2024/01/27 17:47:05 by bkas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ Bir Roma rakamı verildiğinde, bunu bir tam sayıya dönüştürün.
  * XC 90
  * CD 400
  * CM 900
+ * cmlvi 956
  * 
  */
 
@@ -58,6 +59,7 @@ int romanToInt(char *s)
 	int	lcount = 0;
 	int	ccount = 0;
 	int	dcount = 0;
+	int	mcount = 0;
 	int i = 1;
 	int v = 5;
 	int x = 10;
@@ -114,14 +116,24 @@ int romanToInt(char *s)
 					xcount++;
 				}
 			}
+			else if (s[j + 1] == 'M' || s[j + 1] == 'D' || s[j + 1] == 'L' || s[j + 1] == 'C') {
+				perror("wrong number ! X");
+				return 0;
+			}
 			else {
 				realnum += x;
 				xcount++;
 			}
 		}
 		else if (s[j] == 'L') {
-			realnum += l;
-			lcount++;
+			if (s[j + 1 ] && (s[j + 1] == 'C' || s[j + 1] == 'D' || s[j + 1] == 'M')) {
+				perror("wrong number ! L");
+				return 0;
+			}
+			else {
+				realnum += l;
+				lcount++;
+			}
 		}
 		else if (s[j] == 'C' && ccount <= 3) {
 			if ((s[j + 1] == 'D' || s[j + 1] == 'M') && !ccount) {
@@ -133,16 +145,30 @@ int romanToInt(char *s)
 					realnum += m - c;
 					ccount++;
 				}
-			} else {
+				if ((s[j] == 'M' && s[j + 1] == 'D') || (s[j] == 'D' && s[j + 1] == 'M') ) {
+					perror("wrong number ! D");
+					return 0;
+				}
+			}
+			else {	
 				realnum += c;
 				ccount++;
 			}
 		}
 		else if (s[j] == 'D' && dcount <= 3) {
-			realnum += d;
-			ccount++;
+			if (s[j + 1] && s[j + 1] == 'M') {
+				perror("wrong number ! M");
+				return 0;
+			} else {
+				realnum += d;
+				dcount++;
+			}
 		}
-		if (icount > 3 || xcount > 3 || vcount > 1 || lcount > 1 || ccount > 3) {
+		else if (s[j] == 'M' && mcount <= 3) {
+			realnum += m;
+			mcount++;
+		}
+		if (icount > 3 || xcount > 3 || vcount > 1 || lcount > 1 || ccount > 3 || mcount > 3 || dcount > 3) {
 			perror("wrong number ! 2");
 			return 0;
 		} else if (icount == 2 && (s[j + 1] != 'I' && s[j + 1] != '\0')) {
@@ -153,7 +179,13 @@ int romanToInt(char *s)
 			return 0;
 		} 
 		else if (s[j] < s[j + 1]) {
-			if (!(s[j] == 'L' || s[j] == 'C') && !(s[j - 1] == 'X')) {
+			if (!(s[j] == 'L' || s[j] == 'C') && (s[j - 1] == 'X')) {
+				perror("wrong number 5!");
+				return 0;
+			} else if (!(s[j] == 'M' || s[j] == 'D') && (s[j - 1] == 'C')) {
+				perror("wrong number 5!");
+				return 0;
+			} else if (!(s[j] == 'M' || s[j] == 'D') && (s[j - 1] == 'C')) {
 				perror("wrong number 5!");
 				return 0;
 			}
@@ -163,7 +195,7 @@ int romanToInt(char *s)
 }
 
 int main () {
-	char x[] = "cdx";
+	char x[] = "mdc";
 	int c = 0;
 	c = romanToInt(x);
 	printf("%d\n", c);
