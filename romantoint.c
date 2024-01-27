@@ -6,7 +6,7 @@
 /*   By: bkas <bkas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 20:02:16 by batuhan           #+#    #+#             */
-/*   Updated: 2024/01/27 17:47:05 by bkas             ###   ########.fr       */
+/*   Updated: 2024/01/27 18:03:44 by bkas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ int romanToInt(char *s)
 }
 
 int main () {
-	char x[] = "mdc";
+	char x[] = "LVIII";
 	int c = 0;
 	c = romanToInt(x);
 	printf("%d\n", c);
