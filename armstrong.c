@@ -6,7 +6,7 @@
 /*   By: bkas <bkas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 18:26:00 by bkas              #+#    #+#             */
-/*   Updated: 2024/01/27 18:31:15 by bkas             ###   ########.fr       */
+/*   Updated: 2024/01/27 18:44:24 by bkas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,21 @@ bool is_armstrong_number(int candidate) {
     int len = 0;
     int candy = candidate;
     int sugar = candidate;
-    int num = 0;
+    int num = 1;
 
     while (candy) {
         candy /= 10;
         len++;
     }
+    printf("len : %d\n", len);
     while (sugar) {
-        num += (sugar % 10) * len;
+        int x = len;
+        int mod = sugar % 10;
+        while (x) {
+            num *= mod;
+            printf("num : %d\n", num);
+            x--;
+        }
         sugar /= 10;
     }
     if (num == candidate)
