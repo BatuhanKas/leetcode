@@ -6,7 +6,7 @@
 /*   By: batuhan <batuhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 22:48:28 by batuhan           #+#    #+#             */
-/*   Updated: 2024/01/27 23:53:07 by batuhan          ###   ########.fr       */
+/*   Updated: 2024/01/28 16:52:28 by batuhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,22 @@ uint64_t total(void) {
                 tmp = 2 * tmp;
                 len--;
             }
-            sum += tmp;
-            printf("sum : %ld\n", sum);
-            sqr++;
-            tmp = 1;
-            j++;
+            if (sqr <= 64) {
+                sum += tmp;
+                printf("sum : %ld\n", sum);
+                sqr++;
+                tmp = 1;
+                j++;
+            } else {
+                break;
+            }
         }
-        i++;
-        j = 0;
+        if (sqr <= 64) {
+            i++;
+            j = 0;
+        } else {
+            break;
+        }
     }
     printf("sum : %ld\n", sum);
     return sum;
