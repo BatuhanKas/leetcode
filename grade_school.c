@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   grade_school.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: batuhan <batuhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bkas <bkas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 18:20:21 by batuhan           #+#    #+#             */
-/*   Updated: 2024/01/29 00:32:16 by batuhan          ###   ########.fr       */
+/*   Updated: 2024/02/01 14:24:14 by bkas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 
 #define MAX_NAME_LENGTH 20
@@ -29,6 +30,39 @@ typedef struct {
    student_t students[MAX_STUDENTS];
 } roster_t;
 
+void    init_roster(roster_t *roster)
+{
+    roster->count = 0;
+}
+
+bool add_student(roster_t *roster, char *name, int grade)
+{
+    (void)roster;
+    (void)name;
+    (void)grade;
+    return true;
+}
+/**
+ * @brief Get the grade object
+ * 
+void    init_roster(roster_t *roster);
+bool    add_student(roster_t *roster, char *name, int grade);
+roster_t get_grade(roster_t *roster, int desired_grade);
+
+init etmeyi unutma
+ * 
+ * @param roster 
+ * @param desired_grade 
+ * @return roster_t 
+ */
+
+roster_t get_grade(roster_t *roster, int desired_grade)
+{
+    (void)desired_grade;
+    return *roster;
+}
+
+/*
 void    adding_to_grade(char *str, int grade) 
 {
     roster_t roster;
@@ -45,7 +79,7 @@ void    adding_to_grade(char *str, int grade)
     printf("%s ", roster.students[roster.count].name);
     printf("%d\n", roster.students[roster.count].grade);
     roster.count++;
-}
+}*/
 
 int main () {
     adding_to_grade("ali", 1);

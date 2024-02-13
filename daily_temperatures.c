@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   daily_temperatures.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: batuhan <batuhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bkas <bkas@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 13:32:36 by batuhan           #+#    #+#             */
-/*   Updated: 2024/01/31 14:29:45 by batuhan          ###   ########.fr       */
+/*   Updated: 2024/02/01 14:00:26 by bkas             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,37 +32,26 @@
  */
 
 int* dailyTemperatures(int* temperatures, int temperaturesSize, int* returnSize) {
-    int i = 0;
-    int count = 1;
     int *arr = (int *)malloc(sizeof(int) * temperaturesSize);
+    int count = 1;
+    int j;
 
-    while (temperatures[i]) {
-        int j = i + 1;
-        if (temperatures[i] < temperatures[j] && temperatures[j]) {
-            arr[i] = count;
-        } else {
-            while (temperatures[i] > temperatures[j] && temperatures[j] && temperatures[i]) {
-                j++;
-                count++;
-                if (temperatures[i] < temperatures[j] && temperatures[j]) {
-                    arr[i] = count;
-                }
-            }
-        }
-        if (temperatures[j] == '\0') {
+    for (int i = 0; i < temperaturesSize; i++) {
+        for (j = i + 1; j < temperaturesSize && temperatures[i] >= temperatures[j]; j++)
+            count++;
+        if (j == temperaturesSize)
             arr[i] = 0;
-        }
-        i++;
+        else
+            arr[i] = count;
         count = 1;
     }
-    // *returnSize = i;
-    arr[i + 1] = '\0';
+    *returnSize = temperaturesSize;
     return arr;
 }
 
 int main () {
-    int x[] = {30, 60, 90};
-    int *a = dailyTemperatures(x, 3, NULL);
+    int x[] = {73,74,75,71,69,72,76,73};
+    int *a = dailyTemperatures(x, 8, NULL);
     for (int i = 0; a[i]; i++) {
         printf("a[%d] = %d\n", i, a[i]);
     }
